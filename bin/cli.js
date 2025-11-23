@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-console.log("--- DEBUG: I am running the new code! ---"); // <--- Add this line
 import { Command } from "commander";
 import inquirer from "inquirer";
 import { generateProject } from "../src/generator.js";
