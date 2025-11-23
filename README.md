@@ -14,6 +14,7 @@ It handles the complex CMake configuration, sets up VS Code IntelliSense automat
 - 📶 **Pico W Support:** Handles the specific linking for the wireless board.
 - 📦 **Local SDK:** Option to download a local copy of the SDK for maximum portability.
 - 🛠 **Build Scripts:** Includes `npm run build` and `npm run flash` for cross-platform ease.
+- ☁️ **GitHub Actions CI:** Automatically generates a workflow to compile your project on every push.
 
 ## Quick Start
 
@@ -68,6 +69,14 @@ npm run flash
 ```
 
 (This script auto-detects the mounted Pico on Windows, macOS, and Linux and copies the firmware).
+
+## Continuous Integration (CI)
+
+A `.github/workflows/build.yml` file is automatically generated.
+
+1. Push your project to a new GitHub repository.
+2. Go to the **Actions** tab on GitHub.
+3. You will see a **Build** workflow running automatically. This ensures your code always compiles, even if you are away from your main computer.
 
 ## License
 
