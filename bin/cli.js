@@ -61,7 +61,7 @@ program
     };
 
     // 3. Trigger Generation
-    await generateProject(answers);
+    await generateProject(finalOptions);
   });
 
 program.parse(process.argv);
