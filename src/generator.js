@@ -18,6 +18,12 @@ export async function generateProject(options) {
     // NEW: Create scripts folder
     await fs.mkdir(path.join(projectPath, "scripts"));
 
+    // NEW: Create GitHub Actions folders
+    // recursive: true allows making .github AND .github/workflows in one go
+    await fs.mkdir(path.join(projectPath, ".github/workflows"), {
+      recursive: true,
+    });
+
     // 2. Write Standard Files
     console.log(chalk.blue("ℹ Writing configuration files..."));
 
@@ -39,6 +45,13 @@ export async function generateProject(options) {
     await fs.writeFile(
       path.join(projectPath, ".vscode/c_cpp_properties.json"),
       templates.getVsCodeProperties(localSdk)
+    );
+
+    // NEW: Write the Workflow file
+    console.log(chalk.blue("ℹ Generating GitHub Actions workflow..."));
+    await fs.writeFile(
+      path.join(projectPath, ".github/workflows/build.yml"),
+      templates.getGithubAction(options.board)
     );
 
     // NEW: Write Package.json and Scripts

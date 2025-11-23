@@ -197,3 +197,37 @@ if (fs.existsSync(buildDir)) {
     fs.mkdirSync(buildDir);
 }
 `;
+export const getGithubAction = (board) => {
+  return `name: Build ${board}
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install Toolchain
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+
+    - name: Install Pico SDK
+      run: |
+        git clone https://github.com/raspberrypi/pico-sdk.git
+        cd pico-sdk
+        git submodule update --init
+
+    - name: Configure CMake
+      run: |
+        export PICO_SDK_PATH=$GITHUB_WORKSPACE/pico-sdk
+        cmake -S . -B build -DPICO_BOARD=${board}
+
+    - name: Build
+      run: cmake --build build
+`;
+};
