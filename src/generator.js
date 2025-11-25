@@ -105,11 +105,37 @@ export async function generateProject(options) {
       });
 
       if (template === "freertos") {
-        console.log(chalk.yellow("ℹ Initializing FreeRTOS Submodule..."));
-        execSync("git submodule update --init lib/FreeRTOS-Kernel", {
-          cwd: path.join(projectPath, "pico-sdk"),
-          stdio: "inherit",
-        });
+        console.log(chalk.yellow("ℹ Checking FreeRTOS Submodule..."));
+        const sdkPath = path.join(projectPath, "pico-sdk");
+
+        try {
+          // 1. Try standard update (Best case)
+          execSync("git submodule update --init lib/FreeRTOS-Kernel", {
+            cwd: sdkPath,
+            stdio: "ignore",
+          });
+        } catch (e) {
+          // 2. Force Add (The fix for your error)
+          console.log(
+            chalk.yellow("⚠ Submodule missing. Injecting FreeRTOS Kernel...")
+          );
+          try {
+            execSync(
+              "git submodule add https://github.com/raspberrypi/FreeRTOS-Kernel.git lib/FreeRTOS-Kernel",
+              { cwd: sdkPath, stdio: "inherit" }
+            );
+          } catch (addError) {
+            // 3. Fallback: If 'add' fails (e.g., folder exists but empty), force a raw clone
+            // This happens if a previous run failed halfway through.
+            console.log(
+              chalk.yellow("⚠ Git add failed. Falling back to raw clone...")
+            );
+            execSync(
+              "git clone https://github.com/raspberrypi/FreeRTOS-Kernel.git lib/FreeRTOS-Kernel",
+              { cwd: sdkPath, stdio: "inherit" }
+            );
+          }
+        }
       }
     }
 
