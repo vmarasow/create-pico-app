@@ -1,6 +1,6 @@
 {
   "name": "create-pico-app",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Scaffold a modern CMake/C++ project for the Raspberry Pi Pico",
   "main": "src/generator.js",
   "type": "module",
