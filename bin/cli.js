@@ -45,6 +45,17 @@ program
     });
 
     questions.push({
+      type: "list",
+      name: "template",
+      message: "Select a project template:",
+      choices: [
+        { name: "Basic (Blinky)", value: "basic" },
+        { name: "FreeRTOS (Multi-tasking OS)", value: "freertos" },
+      ],
+      default: "basic",
+    });
+
+    questions.push({
       type: "confirm",
       name: "localSdk",
       message:

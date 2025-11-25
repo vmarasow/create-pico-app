@@ -5,7 +5,7 @@ import chalk from "chalk";
 import * as templates from "./templates.js";
 
 export async function generateProject(options) {
-  const { name, board, localSdk } = options;
+  const { name, board, localSdk, template } = options;
   const projectPath = path.join(process.cwd(), name);
 
   try {
@@ -72,7 +72,15 @@ export async function generateProject(options) {
       templates.getCleanScript()
     );
 
-    // 3. Handle Local SDK (Git Submodule)
+    // 3. Write FreeRTOS Config
+    if (template === "freertos") {
+      await fs.writeFile(
+        path.join(projectPath, "src/FreeRTOSConfig.h"),
+        templates.getFreeRTOSConfig()
+      );
+    }
+
+    // 4. Handle Local SDK (Git Submodule)
     if (localSdk) {
       console.log(
         chalk.yellow(
@@ -95,6 +103,14 @@ export async function generateProject(options) {
         cwd: path.join(projectPath, "pico-sdk"),
         stdio: "inherit",
       });
+
+      if (template === "freertos") {
+        console.log(chalk.yellow("ℹ Initializing FreeRTOS Submodule..."));
+        execSync("git submodule update --init lib/FreeRTOS-Kernel", {
+          cwd: path.join(projectPath, "pico-sdk"),
+          stdio: "inherit",
+        });
+      }
     }
 
     console.log(chalk.green(`\n✔ Project "${name}" created successfully!`));
