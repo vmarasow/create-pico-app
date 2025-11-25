@@ -29,12 +29,12 @@ export async function generateProject(options) {
 
     await fs.writeFile(
       path.join(projectPath, "CMakeLists.txt"),
-      templates.getCmakeLists(name, board)
+      templates.getCmakeLists(name, board, template)
     );
 
     await fs.writeFile(
       path.join(projectPath, "src/main.cpp"),
-      templates.getMainCpp(board)
+      templates.getMainCpp(board, template)
     );
 
     await fs.writeFile(
