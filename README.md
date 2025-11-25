@@ -1,6 +1,6 @@
 # create-pico-app ⚡
 
-A lightning-fast CLI tool to scaffold C/C++ projects for the Raspberry Pi Pico and Pico W.
+A lightning-fast CLI tool to scaffold FreeRTOS and C/C++ projects for the Raspberry Pi Pico and Pico W.
 
 It handles the complex CMake configuration, sets up VS Code IntelliSense automatically, and provides build/flash scripts so you can start coding immediately.
 
@@ -15,6 +15,7 @@ It handles the complex CMake configuration, sets up VS Code IntelliSense automat
 - 📦 **Local SDK:** Option to download a local copy of the SDK for maximum portability.
 - 🛠 **Build Scripts:** Includes `npm run build` and `npm run flash` for cross-platform ease.
 - ☁️ **GitHub Actions CI:** Automatically generates a workflow to compile your project on every push.
+- ⏱️ **FreeRTOS Ready:** Choose between a basic "Super Loop" or a fully configured FreeRTOS kernel (SMP/Dual-Core enabled) out of the box.
 
 ## Quick Start
 
@@ -25,6 +26,23 @@ npx create-pico-app my-robot
 ```
 
 Follow the prompts to select your board (Pico or Pico W) and project name.
+
+## Project Templates
+
+When you run the tool, you will be asked to select a template:
+
+### 1. Basic (Blinky)
+
+- **Best for:** Simple projects, sensors, and learning the basics.
+- **Structure:** A standard `main.cpp` with a `while(true)` loop.
+- **Libraries:** Links `pico_stdlib`.
+
+### 2. FreeRTOS (Multi-tasking)
+
+- **Best for:** Robotics, IoT, and complex applications needing multiple tasks.
+- **Structure:** \* Pre-configured `FreeRTOSConfig.h` (optimized for RP2040 Dual Core).
+  - `main.cpp` with two example tasks (Blink and Logger).
+  - CMake setup using the "Manual Source" method for maximum compatibility.
 
 ## Prerequisites
 
